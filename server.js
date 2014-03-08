@@ -42,12 +42,16 @@ function startServers()
 
 function serve(port,dir)
 {
-	if(port!=null && dir!==null)
+	if(!isBlank(port) && !isBlank(dir))
 	{
 		connect.createServer(
 			connect.static(__dirname+'/'+dir)
 		).listen(port);
 	}
+    else if(!isBlank(port)
+    {
+        console.log('Only port forwarding to port '+port+' is active as no dir specified')
+    }
 	else
 	{
 		console.log('invalid parameters for port and dir specified...');
@@ -62,26 +66,26 @@ function proxify(request, response)
 	var level2 = domainParts.pop();
 	var level3 = domainParts.pop();
 	
-    if(level1!==undefined || level1!==null)
+    if(!isBlank(level1))
         level1 = level1.toLowerCase();
     
-    if(level2!==undefined || level2!==null)
+    if(!isBlank(level2))
         level2 = level2.toLowerCase();
         
-    if(level2!==undefined || level2!==null)
-        level2 = level2.toLowerCase();
+    if(!isBlank(level3))
+        level3 = level3.toLowerCase();
 	
     console.log('recieved a request from '+domain);
 	
 	var dir = null;
 	var port = null;
 	
-	if( map[level1][level2][level3]!=null &&  map[level1][level2][level3]!=undefined &&  map[level1][level2][level3]!='')
+	if(!isBlank(map[level1][level2][level3]))
 	{
 		dir =  map[level1][level2][level3]['dir'];
 		port = map[level1][level2][level3]['port'];
 	}
-	if(port==null || dir==null)
+	if(isBlank(port) || isBlank(dir))
 	{
 		dir = map[level1][level2]['dir'];
 		port = map[level1][level2]['port'];
@@ -243,4 +247,12 @@ function forwardRequest(request,response,port)
 
 	}
 
+}
+
+function isBlank(obj)
+{
+    if(obj===null || obj===undefined || obj==='')
+        return true;
+    else
+        return false;
 }
