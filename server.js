@@ -97,10 +97,12 @@ function proxify(request, response)
     }
     else
     {
-        console.log(domain+' tried but error 500 returned as response')
-        response.writeHead(500,{'Content-Type': 'text/plain'});
-        response.write('Invalid URL Specified');
-        response.end();
+        // console.log(domain+' tried but error 500 returned as response')
+        // response.writeHead(500,{'Content-Type': 'text/plain'});
+        // response.write('Invalid URL Specified');
+        // response.end();
+        port = 8080; //trying a default port instead of error
+        forwardRequest(request, response, port);
     }
 }
 
