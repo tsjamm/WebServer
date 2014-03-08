@@ -80,7 +80,7 @@ function proxify(request, response)
 	var dir = null;
 	var port = null;
 	
-	if(!isBlank(map[level1][level2]))
+	if(!isBlank(map[level1]) && !isBlank(map[level1][level2]))
     {
         if(!isBlank(map[level1][level2][level3]))
         {
