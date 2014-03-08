@@ -80,18 +80,28 @@ function proxify(request, response)
 	var dir = null;
 	var port = null;
 	
-	if(!isBlank(map[level1][level2][level3]))
-	{
-		dir =  map[level1][level2][level3]['dir'];
-		port = map[level1][level2][level3]['port'];
-	}
-	if(isBlank(port) && isBlank(dir))
-	{
-		dir = map[level1][level2]['dir'];
-		port = map[level1][level2]['port'];
-	}
-	console.log('Request mapped to '+dir+' on port '+port);
-	forwardRequest(request, response, port);
+	if(!isBlank(map[level1][level2]))
+    {
+        if(!isBlank(map[level1][level2][level3]))
+        {
+            dir =  map[level1][level2][level3]['dir'];
+            port = map[level1][level2][level3]['port'];
+        }
+        if(isBlank(port) && isBlank(dir))
+        {
+            dir = map[level1][level2]['dir'];
+            port = map[level1][level2]['port'];
+        }
+        console.log('Request mapped to '+dir+' on port '+port);
+        forwardRequest(request, response, port);
+    }
+    else
+    {
+        console.log(domain+' tried but error 500 returned as response')
+        response.writeHead(500,{'Content-Type': 'text/plain'});
+        response.write('Invalid URL Specified');
+        response.end();
+    }
 }
 
 //The following forwardRequest Method has been taken from AssassinJS proxy module
