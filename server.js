@@ -1,3 +1,11 @@
+//This is a simple fileserver in node js
+//See Readme on how to use it
+
+// (c) Sai Teja Jammalamadaka under MIT License
+
+// A part of the forwarding code is taken from AssassinJS proxy module,
+// which is (c) by Adithya Chebiyyam under MIT License 
+
 var http = require('http');
 var net = require('net');
 var connect = require('connect');
@@ -11,6 +19,40 @@ server.listen(80);
 console.log('Main Server Running on Port 80');
 
 startServers();
+
+function startServers()
+{
+	for(var x in map)
+	{
+		for(var y in map[x])
+		{
+			for(var z in map[x][y])
+			{
+				if(z!=='port' && z!=='dir')
+				{
+					console.log(z+'.'+y+'.'+x+' maps to port '+map[x][y][z]['port']+' and dir '+map[x][y][z]['dir']);
+					serve(map[x][y][z]['port'],map[x][y][z]['dir']);
+				}
+			}
+			console.log(y+'.'+x+' maps to port '+map[x][y]['port']+' and dir '+map[x][y]['dir']);
+			serve(map[x][y]['port'],map[x][y]['dir']);
+		}
+	}
+}
+
+function serve(port,dir)
+{
+	if(port!=null && dir!==null)
+	{
+		connect.createServer(
+			connect.static(__dirname+'/'+dir)
+		).listen(port);
+	}
+	else
+	{
+		console.log('invalid parameters for port and dir specified...');
+	}
+}
 
 function proxify(request, response)
 {
@@ -39,43 +81,8 @@ function proxify(request, response)
 	forwardRequest(request, response, port);
 }
 
-function map(request, response)
-{}
-
-function serve(port,dir)
-{
-	if(port!=null && dir!==null)
-	{
-		connect.createServer(
-			connect.static(__dirname+'/'+dir)
-		).listen(port);
-	}
-	else
-	{
-		console.log('invalid parameters for port and dir specified...');
-	}
-}
-
-function startServers()
-{
-	for(var x in map)
-	{
-		for(var y in map[x])
-		{
-			for(var z in map[x][y])
-			{
-				if(z!=='port' && z!=='dir')
-				{
-					console.log(z+'.'+y+'.'+x+' maps to port '+map[x][y][z]['port']+' and dir '+map[x][y][z]['dir']);
-					serve(map[x][y][z]['port'],map[x][y][z]['dir']);
-				}
-			}
-			console.log(y+'.'+x+' maps to port '+map[x][y]['port']+' and dir '+map[x][y]['dir']);
-			serve(map[x][y]['port'],map[x][y]['dir']);
-		}
-	}
-}
-
+//The following forwardRequest Method has been taken from AssassinJS proxy module
+//The code is (c) by Adithya Chebiyyam under MIT License
 function forwardRequest(request,response,port)
 {	
 	var		
@@ -90,15 +97,15 @@ function forwardRequest(request,response,port)
 	//called on getting response from target server
 	var requestComplete = function(res)
 	{
-		console.log('STATUS: ' + res.statusCode);
- 		console.log('HEADERS: ' + JSON.stringify(res.headers));
+		//console.log('STATUS: ' + res.statusCode);
+ 		//console.log('HEADERS: ' + JSON.stringify(res.headers));
   		//res.setEncoding('utf8');
   		//res.setEncoding('binary');
   		
   		cached_response.writeHead(res.statusCode,res.headers);
   		
  		res.on('data', function (chunk) { 			
-    		console.log('BODY: ' + chunk);
+    		//console.log('BODY: ' + chunk);
     		cached_response.write(chunk);	     	 
   		});
   		
@@ -122,8 +129,8 @@ function forwardRequest(request,response,port)
 
 		var new_request = http.request(options,function(res){
 
-		console.log('STATUS: ' + res.statusCode);
- 		console.log('HEADERS: ' + JSON.stringify(res.headers));
+		//console.log('STATUS: ' + res.statusCode);
+ 		//console.log('HEADERS: ' + JSON.stringify(res.headers));
   		
   		cached_response.writeHead(res.statusCode,{});
   		cached_response.end(); 	
@@ -153,7 +160,7 @@ function forwardRequest(request,response,port)
   						headers: request.headers  									
 					  };
 
-		console.log(JSON.stringify(options));
+		//console.log(JSON.stringify(options));
 
 		http.get(options, requestComplete)
 		.on('error', function(e) {
@@ -207,7 +214,7 @@ function forwardRequest(request,response,port)
 	};
 
 	//actual execution part starts from here
-	console.log(domain+pathstring);
+	//console.log(domain+pathstring);
 
 	switch(request.method)
 	{
