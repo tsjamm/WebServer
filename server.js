@@ -48,7 +48,7 @@ function serve(port,dir)
 			connect.static(__dirname+'/'+dir)
 		).listen(port);
 	}
-    else if(!isBlank(port)
+    else if(!isBlank(port))
     {
         console.log('Only port forwarding to port '+port+' is active as no dir specified')
     }
