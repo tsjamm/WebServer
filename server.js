@@ -62,7 +62,16 @@ function proxify(request, response)
 	var level2 = domainParts.pop();
 	var level3 = domainParts.pop();
 	
-	console.log('recieved a request from '+domain);
+    if(level1!==undefined || level1!==null)
+        level1 = level1.toLowerCase();
+    
+    if(level2!==undefined || level2!==null)
+        level2 = level2.toLowerCase();
+        
+    if(level2!==undefined || level2!==null)
+        level2 = level2.toLowerCase();
+	
+    console.log('recieved a request from '+domain);
 	
 	var dir = null;
 	var port = null;
