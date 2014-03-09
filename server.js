@@ -61,6 +61,11 @@ function serve(port,dir)
 function proxify(request, response)
 {
 	var domain = request.headers.host;
+    if(isBlank(domain))
+    {
+        port = 8080; //trying a default port instead of error
+        forwardRequest(request, response, port);
+    }
 	var domainParts = domain.split('.');
 	var level1 = domainParts.pop();
 	var level2 = domainParts.pop();
