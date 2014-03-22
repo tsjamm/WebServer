@@ -13,13 +13,6 @@ var map = require('./map.json');
 
 var defaultDomain = 'http://jsaiteja.com';
 var defaultPort = 8080;
-if(!isBlank(map['default']))
-{
-	if(!isBlank(map['default']['domain']))
-		defaultDomain = map['default']['domain'];
-	if(!isBlank(map['default']['port']))
-		defaultPort = map['default']['port'];
-}
 
 //console.log(JSON.stringify(map));
 
