@@ -289,7 +289,7 @@ function forwardRequest(request,response,port)
 
 function returnRedirect(response,redirectDomain)
 {
-	response.writeHead(302,{'Location':redirectDomain);
+	response.writeHead(302,{'Location':redirectDomain});
 	response.write('Please follow <a href="'+redirectDomain+'">this link</a>.');
 	response.end();
 }
