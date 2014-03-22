@@ -92,7 +92,7 @@ function proxify(request, response)
             dir =  map[level1][level2][level3]['dir'];
             port = map[level1][level2][level3]['port'];
         }
-        if(isBlank(port) && isBlank(dir))
+        if(isBlank(port))
         {
             dir = map[level1][level2]['dir'];
             port = map[level1][level2]['port'];
