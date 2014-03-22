@@ -66,8 +66,8 @@ function proxify(request, response)
 	var domain = request.headers.host;
 	if(isBlank(domain))
 	{
-		port = 8080; //trying a default port instead of error
-		forwardRequest(request, response, port);
+		//trying a default port instead of error
+		forwardRequest(request, response, defaultPort);
 		return;
 	}
 	var domainParts = domain.split('.');
@@ -98,7 +98,7 @@ function proxify(request, response)
         }
         if(isBlank(port))
         {
-            if(!isBlank(map[level1][level2][level3]))
+            if(!level3))
 			{			
 				returnRedirect(response,"http://"+level2+"."+level1);
 				return;
