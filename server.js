@@ -98,7 +98,7 @@ function proxify(request, response)
         }
         if(isBlank(port))
         {
-            if(!level3))
+            if(!isBlank(level3))
 			{			
 				returnRedirect(response,"http://"+level2+"."+level1);
 				return;
