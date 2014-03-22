@@ -11,6 +11,16 @@ var net = require('net');
 var connect = require('connect');
 var map = require('./map.json');
 
+var defaultDomain = 'http://jsaiteja.com';
+var defaultPort = 8080;
+if(!isBlank(map['default']))
+{
+	if(!isBlank(map['default']['domain']))
+		defaultDomain = map['default']['domain'];
+	if(!isBlank(map['default']['port']))
+		defaultPort = map['default']['port'];
+}
+
 //console.log(JSON.stringify(map));
 
 var server = http.createServer();
@@ -103,12 +113,17 @@ function proxify(request, response)
     }
     else
     {
-        // console.log(domain+' tried but error 500 returned as response')
+        //this generates a server error response
+		// console.log(domain+' tried but error 500 returned as response')
         // response.writeHead(500,{'Content-Type': 'text/plain'});
         // response.write('Invalid URL Specified');
         // response.end();
-        port = 8080; //trying a default port instead of error
-        forwardRequest(request, response, port);
+        
+		//trying a default port instead of error
+        // forwardRequest(request, response, defaultPort);
+		
+		//this returns a redirect to the defaultDomain
+		returnRedirect(response,defaultDomain);
     }
 }
 
@@ -265,6 +280,13 @@ function forwardRequest(request,response,port)
 
 	}
 
+}
+
+function returnRedirect(response,redirectDomain)
+{
+	response.writeHead(302,{'Location':redirectDomain);
+	response.write('Please follow <a href="'+redirectDomain+'">this link</a>.');
+	response.end();
 }
 
 function isBlank(obj)
