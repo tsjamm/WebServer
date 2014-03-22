@@ -105,7 +105,12 @@ function proxify(request, response)
         }
         if(isBlank(port))
         {
-            dir = map[level1][level2]['dir'];
+            if(!isBlank(map[level1][level2][level3]))
+			{			
+				returnRedirect(response,"http://"+level2+"."+level1);
+				return;
+			}
+			dir = map[level1][level2]['dir'];
             port = map[level1][level2]['port'];
         }
         console.log('Request mapped to '+dir+' on port '+port);
