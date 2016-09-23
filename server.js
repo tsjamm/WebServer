@@ -87,6 +87,11 @@ function proxify(request, response)
 	var level2 = domainParts.pop();
 	var level3 = domainParts.pop();
 	
+	var protocol = request.headers.protocol;
+	if(isBlank(protocol))
+	{
+		protocol = 'http:';
+	}
     if(!isBlank(level1))
         level1 = level1.toLowerCase();
     
@@ -96,7 +101,7 @@ function proxify(request, response)
     if(!isBlank(level3))
         level3 = level3.toLowerCase();
 	
-    console.log('recieved a request from '+domain);
+    console.log('recieved an '+protocol+' request from '+domain);
 	
 	var dir = null;
 	var port = null;
@@ -112,7 +117,7 @@ function proxify(request, response)
         {
             if(!isBlank(level3))
 			{			
-				returnRedirect(response,"http://"+level2+"."+level1);
+				returnRedirect(response,protocol+"//"+level2+"."+level1);
 				return;
 			}
 			dir = map[level1][level2]['dir'];
