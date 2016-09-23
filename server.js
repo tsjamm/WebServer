@@ -7,6 +7,8 @@
 // which is (c) by Adithya Chebiyyam under MIT License 
 
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var net = require('net');
 var connect = require('connect');
 var map = require('./map.json');
