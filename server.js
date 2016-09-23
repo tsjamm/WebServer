@@ -21,6 +21,16 @@ server.on('request',proxify);
 server.listen(80);
 console.log('Main Server Running on Port 80');
 
+var sslOptions = {
+  key: fs.readFileSync('./sslStuff/privkey.pem'),
+  cert: fs.readFileSync('./sslStuff/fullchain.pem'),
+  ca: fs.readFileSync('./sslStuff/chain.pem')
+}
+var sslServer = https.createServer(sslOptions);
+sslServer.on('request',proxify);
+sslServer.listen(443);
+console.log('SSL Server Running on Port 443');
+
 startServers();
 
 function startServers()
