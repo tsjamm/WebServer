@@ -19,7 +19,7 @@ var defaultPort = 8080;
 //console.log(JSON.stringify(map));
 
 var server = http.createServer();
-server.on('request',proxify);
+server.on('request',securify);
 server.listen(80);
 console.log('Main Server Running on Port 80');
 
@@ -71,6 +71,13 @@ function serve(port,dir)
 	{
 		console.log('invalid parameters for port and dir specified...');
 	}
+}
+
+function securify(request, response)
+{
+	var domain = request.headers.host;
+	returnRedirect(response,"https://"+domain);
+	return;
 }
 
 function proxify(request, response)
